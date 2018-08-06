@@ -223,6 +223,9 @@ def assign_employee(id):
     if form.validate_on_submit():
         employee.department = form.department.data
         employee.role = form.role.data
+        employee.is_admin = form.is_admin.data
+        employee.is_lore = form.is_lore.data
+        employee.is_chart = form.is_chart.data
         db.session.add(employee)
         db.session.commit()
         flash('You have successfully assigned a department and role.')

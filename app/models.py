@@ -23,6 +23,8 @@ class Employee(UserMixin, db.Model):
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     is_admin = db.Column(db.Boolean, default=False)
+    is_lore = db.Column(db.Boolean, default=False)
+    is_chart = db.Column(db.Boolean, default=False)
 
     @property
     def password(self):
@@ -79,8 +81,40 @@ class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(60), unique=True)
     description = db.Column(db.String(200))
+    escription = db.Column(db.String(200))
     employees = db.relationship('Employee', backref='role',
                                 lazy='dynamic')
 
     def __repr__(self):
         return '<Role: {}>'.format(self.name)
+
+class Lore(db.Model):
+    """
+    Create a Lore table
+    """
+
+    __tablename__ = 'lores'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(60), unique=True)
+    loreBody = db.Column(db.Text)
+    imageUrl = db.Column(db.String(200))
+
+    def __repr__(self):
+        return '<Lore: {}>'.format(self.name)
+
+class TimeStamps(db.Model):
+    """
+    Create a Timestamp table
+    For updates and notifications
+    """
+
+    __tablename__ = 'timestamps'
+
+    id = db.Column(db.Integer, primary_key=True)
+    loreUpdate = db.Column(db.DateTime)
+    generalUpdate = db.Column(db.DateTime)
+    notifUpdate = db.Column(db.DateTime)
+
+    def __repr__(self):
+        return '<TimeStamp: {}>'.format(self.name)

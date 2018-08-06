@@ -53,6 +53,8 @@ def login():
             # redirect to the appropriate dashboard page
             if employee.is_admin:
                 return redirect(url_for('home.admin_dashboard'))
+            elif employee.is_lore or employee.is_chart:
+                return redirect(url_for('home.hunter_dashboard'))
             else:
                 return redirect(url_for('home.dashboard'))
 

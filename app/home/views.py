@@ -20,6 +20,14 @@ def dashboard():
     """
     return render_template('home/dashboard.html', title="Dashboard")
 
+@home.route('/hunter/dashboard')
+@login_required
+def hunter_dashboard():
+    """
+    Render the dashboard template on the /dashboard route
+    """
+    return render_template('home/hunter_dashboard.html', title="Dashboard")
+
 # add admin dashboard view
 @home.route('/admin/dashboard')
 @login_required

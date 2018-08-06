@@ -1,7 +1,7 @@
 # app/admin/forms.py
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, BooleanField
 from wtforms.validators import DataRequired
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from ..models import Department, Employee, Role
@@ -31,4 +31,7 @@ class EmployeeAssignForm(FlaskForm):
                                   get_label="name")
     role = QuerySelectField(query_factory=lambda: Role.query.all(),
                             get_label="name")
+    is_admin = BooleanField('isAdmin')
+    is_lore = BooleanField('isLore')
+    is_chart = BooleanField('isChart')
     submit = SubmitField('Submit')

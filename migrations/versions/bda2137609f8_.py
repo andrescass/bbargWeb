@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: af0565d5a5d9
+Revision ID: bda2137609f8
 Revises: 
-Create Date: 2018-08-02 17:11:08.473165
+Create Date: 2018-08-06 15:25:13.241292
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'af0565d5a5d9'
+revision = 'bda2137609f8'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,15 +22,32 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=60), nullable=True),
     sa.Column('description', sa.String(length=200), nullable=True),
+    sa.Column('imageUrl', sa.String(length=200), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
+    )
+    op.create_table('lores',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title', sa.String(length=60), nullable=True),
+    sa.Column('loreBody', sa.Text(), nullable=True),
+    sa.Column('imageUrl', sa.String(length=200), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('title')
     )
     op.create_table('roles',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=60), nullable=True),
     sa.Column('description', sa.String(length=200), nullable=True),
+    sa.Column('escription', sa.String(length=200), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
+    )
+    op.create_table('timestamps',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('loreUpdate', sa.DateTime(), nullable=True),
+    sa.Column('generalUpdate', sa.DateTime(), nullable=True),
+    sa.Column('notifUpdate', sa.DateTime(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('employees',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -60,6 +77,8 @@ def downgrade():
     op.drop_index(op.f('ix_employees_first_name'), table_name='employees')
     op.drop_index(op.f('ix_employees_email'), table_name='employees')
     op.drop_table('employees')
+    op.drop_table('timestamps')
     op.drop_table('roles')
+    op.drop_table('lores')
     op.drop_table('departments')
     # ### end Alembic commands ###
