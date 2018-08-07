@@ -4,9 +4,9 @@ from flask import abort, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 
 from . import admin
-from .forms import DepartmentForm, EmployeeAssignForm, RoleForm
+from .forms import DepartmentForm, EmployeeAssignForm, RoleForm, LoreForm
 from .. import db
-from ..models import Department, Employee, Role
+from ..models import Department, Employee, Role, Lore
 
 def check_admin():
     """
@@ -14,6 +14,106 @@ def check_admin():
     """
     if not current_user.is_admin:
         abort(403)
+
+def check_lore():
+    """
+    Prevent non-admins from accessing the page
+    """
+    if not current_user.is_lore:
+        abort(403)
+
+# Lore Views
+
+@admin.route('/lore', methods=['GET', 'POST'])
+@login_required
+def list_lores():
+    """
+    List all lore entrys
+    """
+    check_lore()
+
+    lores = Lore.query.all()
+
+    return render_template('admin/lores/lores.html',
+                           lores=lores, title="Lore")
+
+@admin.route('/lores/add', methods=['GET', 'POST'])
+@login_required
+def add_lore():
+    """
+    Add a lore
+    """
+    check_lore()
+
+    add_lore = True
+
+    form = LoreForm()
+    if form.validate_on_submit():
+        lore = Lore(title=form.title.data,
+                                loreBody=form.loreBody.data, imageUrl=form.imageUrl.data)
+        try:
+            # add lore to the database
+            db.session.add(lore)
+            db.session.commit()
+            flash('You have successfully added a new lore entry.')
+        except:
+            # in case lore name already exists
+            flash('Error: lore title already exists.')
+
+        # redirect to departments page
+        return redirect(url_for('admin.list_lores'))
+
+    # load department template
+    return render_template('admin/lores/lore.html', action="Add",
+                           add_lore=add_lore, form=form,
+                           title="Add Lore")
+
+@admin.route('/lores/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_lore(id):
+    """
+    Edit a lore entry
+    """
+    check_lore()
+
+    add_lore = False
+
+    lore = Lore.query.get_or_404(id)
+    form = LoreForm(obj=lore)
+    if form.validate_on_submit():
+        lore.title = form.title.data
+        lore.loreBody = form.loreBody.data
+        lore.imageUrl = form.imageUrl.data
+        db.session.commit()
+        flash('You have successfully edited the lore entry.')
+
+        # redirect to the departments page
+        return redirect(url_for('admin.list_lores'))
+
+    form.title.data = lore.title
+    form.loreBody.data = lore.loreBody
+    form.imageUrl.data = lore.imageUrl
+    return render_template('admin/lores/lore.html', action="Edit",
+                           add_lore=add_lore, form=form,
+                           lore=lore, title="Edit lore entry")
+
+@admin.route('/lores/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_lore(id):
+    """
+    Delete a lore entry from the database
+    """
+    check_lore()
+
+    lore = Lore.query.get_or_404(id)
+    db.session.delete(lore)
+    db.session.commit()
+    flash('You have successfully deleted the lore entry.')
+
+    # redirect to the departments page
+    return redirect(url_for('admin.list_lores'))
+
+    return render_template(title="Delete lore")
 
 # Department Views
 

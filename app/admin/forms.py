@@ -35,3 +35,12 @@ class EmployeeAssignForm(FlaskForm):
     is_lore = BooleanField('isLore')
     is_chart = BooleanField('isChart')
     submit = SubmitField('Submit')
+
+class LoreForm(FlaskForm):
+    """
+    Form for admin to add or edit a department
+    """
+    title = StringField('Title', validators=[DataRequired()])
+    loreBody = StringField('Body', validators=[DataRequired()])
+    imageUrl = StringField('Image url', validators=[DataRequired()])
+    submit = SubmitField('Submit')
