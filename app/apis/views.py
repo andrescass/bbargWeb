@@ -21,7 +21,7 @@ def getLoreList():
 	jsonStr = json.dumps(loreList)
 
 
-	resp = jsonify(lorDict)
+	resp = jsonify(loreList)
 
 	return resp
 
