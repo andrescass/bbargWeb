@@ -14,7 +14,7 @@ def getLoreList():
 		lorDict = {
 		'title': lor.title,
 		'loreBody': lor.loreBody,
-		'imageUrl': lor.imageUrl
+		'imageUri': lor.imageUrl
 		}
 		loreList.append(lorDict)
 
