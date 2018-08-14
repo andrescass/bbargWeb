@@ -126,7 +126,7 @@ class Hunter(db.Model):
     __tablename__ = 'hunters'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(60), unique=True)
+    name = db.Column(db.String(60))
     position = db.Column(db.Integer, unique=True)
     lastPosition = db.Column(db.Integer)
 
