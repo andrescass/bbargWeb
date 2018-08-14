@@ -1,7 +1,7 @@
 # app/admin/forms.py
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField
+from wtforms import StringField, SubmitField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from ..models import Department, Employee, Role
@@ -40,3 +40,12 @@ class LoreForm(FlaskForm):
     loreBody = StringField('Body', validators=[DataRequired()])
     imageUrl = StringField('Image url', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class HunterForm(FlaskForm):
+	"""
+	Form for hunters in charts
+	"""
+	name = StringField('Name', validators=[DataRequired()])
+	position = IntegerField('Position', validators=[DataRequired()])
+	lastPosition = IntegerField('Last Position', validators=[DataRequired()])
+	submit = SubmitField('Submit')

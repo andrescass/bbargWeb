@@ -101,7 +101,7 @@ class Lore(db.Model):
     imageUrl = db.Column(db.String(200))
 
     def __repr__(self):
-        return '<Lore: {}>'.format(self.name)
+        return '<Lore: {}>'.format(self.title)
 
 class TimeStamps(db.Model):
     """
@@ -117,4 +117,18 @@ class TimeStamps(db.Model):
     notifUpdate = db.Column(db.DateTime)
 
     def __repr__(self):
-        return '<TimeStamp: {}>'.format(self.name)
+        return '<TimeStamp: {}>'.format(self.id)
+
+class Hunter(db.Model):
+    """
+    Create a Hunter table
+    """
+    __tablename__ = 'hunters'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(60), unique=True)
+    position = db.Column(db.Integer, unique=True)
+    lastPosition = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Hunter: {}>'.format(self.position)

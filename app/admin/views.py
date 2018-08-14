@@ -4,9 +4,9 @@ from flask import abort, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 
 from . import admin
-from .forms import DepartmentForm, EmployeeAssignForm, RoleForm, LoreForm
+from .forms import DepartmentForm, EmployeeAssignForm, RoleForm, LoreForm, HunterForm
 from .. import db
-from ..models import Department, Employee, Role, Lore
+from ..models import Department, Employee, Role, Lore, Hunter
 
 def check_admin():
     """
@@ -20,6 +20,13 @@ def check_lore():
     Prevent non-admins from accessing the page
     """
     if not current_user.is_lore:
+        abort(403)
+
+def check_chart():
+    """
+    Prevent non-admins from accessing the page
+    """
+    if not current_user.is_chart:
         abort(403)
 
 # Lore Views
@@ -114,6 +121,99 @@ def delete_lore(id):
     return redirect(url_for('admin.list_lores'))
 
     return render_template(title="Delete lore")
+
+# Chart Views
+
+@admin.route('/chart', methods=['GET', 'POST'])
+@login_required
+def list_chart():
+    """
+    List all hunters entrys
+    """
+    check_chart()
+
+    hunters = Hunter.query.order_by(Hunter.position.asc())
+
+    return render_template('admin/charts/chart.html',
+                           hunters=hunters, title="Chart")
+
+@admin.route('/chart/add', methods=['GET', 'POST'])
+@login_required
+def add_hunter():
+    """
+    Add a lore
+    """
+    check_chart()
+
+    add_chart = True
+
+    form = HunterForm()
+    if form.validate_on_submit():
+        hunter = Hunter(name=form.name.data,
+                                position=form.position.data, lastPosition=form.lastPosition.data)
+        try:
+            # add lore to the database
+            db.session.add(hunter)
+            db.session.commit()
+            flash('You have successfully added a new hunter.')
+        except:
+            # in case lore name already exists
+            flash('Error: hunter name already exists.')
+
+        # redirect to departments page
+        return redirect(url_for('admin.list_chart'))
+
+    # load department template
+    return render_template('admin/charts/hunter.html', action="Add",
+                           add_hunter=add_hunter, form=form,
+                           title="Add Hunter")
+
+@admin.route('/chart/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_hunter(id):
+    """
+    Edit a hunter
+    """
+    check_chart()
+
+    add_hunter = False
+
+    hunter = Hunter.query.get_or_404(id)
+    form = HunterForm(obj=hunter)
+    if form.validate_on_submit():
+        hunter.name = form.name.data
+        hunter.position = form.position.data
+        hunter.lastPosition = form.lastPosition.data
+        db.session.commit()
+        flash('You have successfully edited the hutner data.')
+
+        # redirect to the departments page
+        return redirect(url_for('admin.list_chart'))
+
+    form.name.data = hunter.name
+    form.position.data = hunter.position
+    form.lastPosition.data = hunter.lastPosition
+    return render_template('admin/charts/hunter.html', action="Edit",
+                           add_hunter=add_hunter, form=form,
+                           hunter=hunter, title="Edit hunter data")
+
+@admin.route('/chart/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_hunter(id):
+    """
+    Delete a hunter from the database
+    """
+    check_chart()
+
+    hunter = Hunter.query.get_or_404(id)
+    db.session.delete(hunter)
+    db.session.commit()
+    flash('You have successfully killed the hunter.')
+
+    # redirect to the departments page
+    return redirect(url_for('admin.list_chart'))
+
+    return render_template(title="Kill hunter")
 
 # Department Views
 
