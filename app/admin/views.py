@@ -158,7 +158,7 @@ def add_hunter():
             flash('You have successfully added a new hunter.')
         except:
             # in case lore name already exists
-            flash('Error: hunter name already exists.')
+            flash('Error: hunter name or position already exists.')
 
         # redirect to departments page
         return redirect(url_for('admin.list_chart'))
