@@ -416,8 +416,8 @@ def assign_employee(id):
     employee = Employee.query.get_or_404(id)
 
     # prevent admin from being assigned a department or role
-    if employee.is_admin:
-        abort(403)
+    #if employee.is_admin:
+     #   abort(403)
 
     form = EmployeeAssignForm(obj=employee)
     if form.validate_on_submit():

@@ -17,18 +17,18 @@
               <thead>
                 <tr>
                   <th width="15%"> Name </th>
-                  <th width="30%"> Department </th>
-                  <th width="30%"> Role </th>
+                  <th width="30%"> Lore </th>
+                  <th width="30%"> Chart </th>
                   <th width="15%"> Assign </th>
                 </tr>
               </thead>
               <tbody>
               {% for employee in employees %}
                 {% if employee.is_admin %}
-                    <tr style="background-color: #aec251; color: white;">
-                        <td> <i class="fa fa-key"></i> Admin </td>
-                        <td> N/A </td>
-                        <td> N/A </td>
+                    <tr>
+                        <td> <i class="fa fa-key"></i> {{ employee.first_name }} {{ employee.last_name }} </td>
+                        <td> employee.isLore </td>
+                        <td> employee.isChart </td>
                         <td>
                           <a href="{{ url_for('admin.assign_employee', id=employee.id) }}">
                             <i class="fa fa-user-plus"></i> Assign
@@ -39,15 +39,15 @@
                     <tr>
                       <td> {{ employee.first_name }} {{ employee.last_name }} </td>
                       <td>
-                        {% if employee.department %}
-                          {{ employee.department.name }}
+                        {% if employee.isLore %}
+                          {{ employee.isLore }}
                         {% else %}
                           -
                         {% endif %}
                       </td>
                       <td>
-                        {% if employee.role %}
-                          {{ employee.role.name }}
+                        {% if employee.isChart %}
+                          {{ employee.isChart }}
                         {% else %}
                           -
                         {% endif %}
