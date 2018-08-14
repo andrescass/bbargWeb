@@ -27,8 +27,8 @@
                 {% if employee.is_admin %}
                     <tr>
                         <td> <i class="fa fa-key"></i> {{ employee.first_name }} {{ employee.last_name }} </td>
-                        <td> {{ employee.isLore }}</td>
-                        <td> {{ employee.isChart }}</td>
+                        <td> {{ employee.is_lore }}</td>
+                        <td> {{ employee.is_chart }}</td>
                         <td>
                           <a href="{{ url_for('admin.assign_employee', id=employee.id) }}">
                             <i class="fa fa-user-plus"></i> Assign
@@ -39,14 +39,14 @@
                     <tr>
                       <td> {{ employee.first_name }} {{ employee.last_name }} </td>
                       <td>
-                        {% if employee.isLore %}
+                        {% if employee.is_lore %}
                           1
                         {% else %}
                           0
                         {% endif %}
                       </td>
                       <td>
-                        {% if employee.isChart %}
+                        {% if employee.is_chart %}
                           1
                         {% else %}
                           0
