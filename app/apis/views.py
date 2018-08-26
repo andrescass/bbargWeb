@@ -2,7 +2,7 @@ from flask import Flask,jsonify,json
 
 from . import apis
 from .. import db
-from ..models import Lore
+from ..models import Lore, Hunter
 
 @apis.route('/getLores', methods=['GET'])
 def getLoreList():
@@ -26,4 +26,25 @@ def getLoreList():
 
 	return resp
 
+@apis.route('/getHunters', methods=['GET'])
+def getHunterList():
+	hunters = Hunter.query.all()
+
+	hunterList = []
+
+	for hunt in hunters:
+		huntDict = {
+		'ID': hunt.id,
+		'name': hunt.name,
+		'position': hunt.position,
+		'lastPos': hunt.lastPosition
+		}
+		hunterList.append(huntDict)
+
+	jsonStr = json.dumps(hunterList)
+
+
+	resp = jsonify(hunterList)
+
+	return resp
 
