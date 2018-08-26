@@ -12,6 +12,7 @@ def getLoreList():
 
 	for lor in lores:
 		lorDict = {
+		'ID': lor.id,
 		'title': lor.title,
 		'loreBody': lor.loreBody,
 		'imageUri': lor.imageUrl
