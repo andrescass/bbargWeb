@@ -4,7 +4,7 @@ from flask import abort, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 
 from . import admin
-from .forms import DepartmentForm, EmployeeAssignForm, RoleForm, LoreForm, HunterForm
+from .forms import DepartmentForm, EmployeeAssignForm, RoleForm, LoreForm, HunterForm, NiusForm
 from .. import db
 from ..models import Department, Employee, Role, Lore, Hunter, NewsModel
 
