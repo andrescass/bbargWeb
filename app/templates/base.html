@@ -30,9 +30,11 @@
                         <li><a href="{{ url_for('admin.list_chart') }}">Ranking</a></li>
                         <li><a href="{{ url_for('admin.list_roles') }}">Roles</a></li>
                         <li><a href="{{ url_for('admin.list_employees') }}">Employees</a></li>
+                        <li><a href="{{ url_for('admin.list_nius') }}">News</a></li>
                       {% else %}
                         {% if current_user.is_lore %}
                           <li><a href="{{ url_for('admin.list_lores') }}">Lore</a></li>
+                          <li><a href="{{ url_for('admin.list_nius') }}">News</a></li>
                         {% endif %}
                         {% if current_user.is_chart %}
                           <li><a href="{{ url_for('admin.list_chart') }}">Lore</a></li>

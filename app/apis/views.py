@@ -48,3 +48,24 @@ def getHunterList():
 
 	return resp
 
+@apis.route('/getNews', methods=['GET'])
+def getNews():
+	newses = NewsModel.query.all()
+
+	newsList = []
+
+	for nius in newses:
+		niusDict = {
+		'ID': nius.id,
+		'name': nius.name,
+		'newsBody': nius.loreBody,
+		'imageUri': nius.imageUrl
+		}
+		newsList.append(niusDict)
+
+	jsonStr = json.dumps(newsList)
+
+
+	resp = jsonify(newsList)
+
+	return resp

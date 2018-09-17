@@ -132,3 +132,18 @@ class Hunter(db.Model):
 
     def __repr__(self):
         return '<Hunter: {}>'.format(self.position)
+
+class NewsModel(db.Model):
+    """
+    Create a Lore table
+    """
+
+    __tablename__ = 'newsmodel'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(60), unique=True)
+    newsBody = db.Column(db.Text)
+    imageUrl = db.Column(db.String(200))
+
+    def __repr__(self):
+        return '<NewsModel: {}>'.format(self.title)

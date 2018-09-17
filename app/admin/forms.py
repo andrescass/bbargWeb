@@ -49,3 +49,12 @@ class HunterForm(FlaskForm):
 	position = IntegerField('Position', validators=[DataRequired()])
 	lastPosition = IntegerField('Last Position', validators=[DataRequired()])
 	submit = SubmitField('Submit')
+
+class NiusForm(FlaskForm):
+    """
+    Form for admin to add or edit a news
+    """
+    title = StringField('Title', validators=[DataRequired()])
+    newsBody = StringField('Body', validators=[DataRequired()])
+    imageUrl = StringField('Image url', validators=[DataRequired()])
+    submit = SubmitField('Submit')

@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 from . import admin
 from .forms import DepartmentForm, EmployeeAssignForm, RoleForm, LoreForm, HunterForm
 from .. import db
-from ..models import Department, Employee, Role, Lore, Hunter
+from ..models import Department, Employee, Role, Lore, Hunter, NewsModel
 
 def check_admin():
     """
@@ -121,6 +121,99 @@ def delete_lore(id):
     return redirect(url_for('admin.list_lores'))
 
     return render_template(title="Delete lore")
+
+# News Views
+
+@admin.route('/nius', methods=['GET', 'POST'])
+@login_required
+def list_nius():
+    """
+    List all nius entrys
+    """
+    check_lore()
+
+    niuss = NewsModel.query.all()
+
+    return render_template('admin/newses/niuses.html',
+                           niuss=niuss, title="News")
+
+@admin.route('/nius/add', methods=['GET', 'POST'])
+@login_required
+def add_nius():
+    """
+    Add a News
+    """
+    check_lore()
+
+    add_news = True
+
+    form = NiusForm()
+    if form.validate_on_submit():
+        nius = NewsModel(title=form.title.data,
+                                newsBody=form.newsBody.data, imageUrl=form.imageUrl.data)
+        try:
+            # add news to the database
+            db.session.add(nius)
+            db.session.commit()
+            flash('You have successfully added a new News entry.')
+        except:
+            # in case lore name already exists
+            flash('Error: News title already exists.')
+
+        # redirect to departments page
+        return redirect(url_for('admin.list_nius'))
+
+    # load department template
+    return render_template('admin/newses/nius.html', action="Add",
+                           add_news=add_news, form=form,
+                           title="Add News")
+
+@admin.route('/nius/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_nius(id):
+    """
+    Edit a news entry
+    """
+    check_news()
+
+    add_news = False
+
+    nius = NewsModel.query.get_or_404(id)
+    form = NiusForm(obj=nius)
+    if form.validate_on_submit():
+        nius.title = form.title.data
+        nius.loreBody = form.newsBody.data
+        nius.imageUrl = form.imageUrl.data
+        db.session.commit()
+        flash('You have successfully edited the news entry.')
+
+        # redirect to the departments page
+        return redirect(url_for('admin.list_nius'))
+
+    form.title.data = nius.title
+    form.newsBody.data = nius.newsBody
+    form.imageUrl.data = nius.imageUrl
+    return render_template('admin/newses/nius.html', action="Edit",
+                           add_news=add_news, form=form,
+                           nius=nius, title="Edit news entry")
+
+@admin.route('/nius/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_nius(id):
+    """
+    Delete a news entry from the database
+    """
+    check_news()
+
+    nius = Lore.query.get_or_404(id)
+    db.session.delete(nius)
+    db.session.commit()
+    flash('You have successfully deleted the news entry.')
+
+    # redirect to the departments page
+    return redirect(url_for('admin.list_nius'))
+
+    return render_template(title="Delete news")
 
 # Chart Views
 
