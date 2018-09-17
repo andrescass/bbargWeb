@@ -135,7 +135,7 @@ def list_nius():
     niuss = NewsModel.query.all()
 
     return render_template('admin/newses/niuses.html',
-                           niuss=niuss, title="News")
+                           niuses=niuss, title="News")
 
 @admin.route('/nius/add', methods=['GET', 'POST'])
 @login_required
