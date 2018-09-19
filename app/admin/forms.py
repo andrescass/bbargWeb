@@ -58,3 +58,12 @@ class NiusForm(FlaskForm):
     newsBody = StringField('Body', validators=[DataRequired()])
     imageUrl = StringField('Image url', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class VideoForm(FlaskForm):
+    """
+    Form for admin to add or edit a video entry
+    """
+    title = StringField('Title', validators=[DataRequired()])
+    videoBody = StringField('Description', validators=[DataRequired()])
+    videoUrl = StringField('Url', validators=[DataRequired()])
+    submit = SubmitField('Submit')

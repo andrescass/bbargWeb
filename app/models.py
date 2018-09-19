@@ -147,3 +147,18 @@ class NewsModel(db.Model):
 
     def __repr__(self):
         return '<NewsModel: {}>'.format(self.title)
+
+class VideoModel(db.Model):
+    """
+    Create a Lore table
+    """
+
+    __tablename__ = 'videomodel'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(60), unique=True)
+    videoBody = db.Column(db.Text)
+    videoUrl = db.Column(db.String(200))
+
+    def __repr__(self):
+        return '<VideoModel: {}>'.format(self.title)

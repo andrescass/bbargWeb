@@ -5,8 +5,9 @@ from flask_login import current_user, login_required
 
 from . import admin
 from .forms import DepartmentForm, EmployeeAssignForm, RoleForm, LoreForm, HunterForm, NiusForm
+from .forms import VideoForm
 from .. import db
-from ..models import Department, Employee, Role, Lore, Hunter, NewsModel
+from ..models import Department, Employee, Role, Lore, Hunter, NewsModel, VideoModel
 
 def check_admin():
     """
@@ -214,6 +215,99 @@ def delete_nius(id):
     return redirect(url_for('admin.list_nius'))
 
     return render_template(title="Delete news")
+
+# Video Views
+
+@admin.route('/videos', methods=['GET', 'POST'])
+@login_required
+def list_videos():
+    """
+    List all lore entrys
+    """
+    check_lore()
+
+    videos = VideoModel.query.all()
+
+    return render_template('admin/videos/videos.html',
+                           videos=videos, title="Video")
+
+@admin.route('/videos/add', methods=['GET', 'POST'])
+@login_required
+def add_video():
+    """
+    Add a video
+    """
+    check_lore()
+
+    add_video = True
+
+    form = VideoForm()
+    if form.validate_on_submit():
+        video = VideoModel(title=form.title.data,
+                                videoBody=form.videoBody.data, videoUrl=form.videoUrl.data)
+        try:
+            # add video to the database
+            db.session.add(video)
+            db.session.commit()
+            flash('You have successfully added a new video entry.')
+        except:
+            # in case video name already exists
+            flash('Error: video title already exists.')
+
+        # redirect to departments page
+        return redirect(url_for('admin.list_videos'))
+
+    # load department template
+    return render_template('admin/videos/video.html', action="Add",
+                           add_video=add_video, form=form,
+                           title="Add VIdeo")
+
+@admin.route('/videos/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_video(id):
+    """
+    Edit a video entry
+    """
+    check_lore()
+
+    add_video = False
+
+    video = VideoModel.query.get_or_404(id)
+    form = VideoForm(obj=video)
+    if form.validate_on_submit():
+        video.title = form.title.data
+        video.loreBody = form.videoBody.data
+        video.imageUrl = form.videoeUrl.data
+        db.session.commit()
+        flash('You have successfully edited the video entry.')
+
+        # redirect to the departments page
+        return redirect(url_for('admin.list_videos'))
+
+    form.title.data = video.title
+    form.videoBody.data = video.videoBody
+    form.videoeUrl.data = video.videoUrl
+    return render_template('admin/videos/video.html', action="Edit",
+                           add_video=add_video, form=form,
+                           video=video, title="Edit video entry")
+
+@admin.route('/videos/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_video(id):
+    """
+    Delete a video entry from the database
+    """
+    check_lore()
+
+    video = VideoModel.query.get_or_404(id)
+    db.session.delete(video)
+    db.session.commit()
+    flash('You have successfully deleted the video entry.')
+
+    # redirect to the departments page
+    return redirect(url_for('admin.list_videos'))
+
+    return render_template(title="Delete video")
 
 # Chart Views
 

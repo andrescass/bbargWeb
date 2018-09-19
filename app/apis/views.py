@@ -2,7 +2,7 @@ from flask import Flask,jsonify,json
 
 from . import apis
 from .. import db
-from ..models import Lore, Hunter
+from ..models import Lore, Hunter, NewsModel, VideoModel
 
 @apis.route('/getLores', methods=['GET'])
 def getLoreList():
@@ -57,8 +57,8 @@ def getNews():
 	for nius in newses:
 		niusDict = {
 		'ID': nius.id,
-		'name': nius.name,
-		'newsBody': nius.loreBody,
+		'title': nius.title,
+		'newsBody': nius.newsBody,
 		'imageUri': nius.imageUrl
 		}
 		newsList.append(niusDict)
@@ -67,5 +67,27 @@ def getNews():
 
 
 	resp = jsonify(newsList)
+
+	return resp
+
+@apis.route('/getVideos', methods=['GET'])
+def getNews():
+	videos = VideoModel.query.all()
+
+	videoList = []
+
+	for video in videos:
+		videoDict = {
+		'ID': video.id,
+		'title': video.name,
+		'videoBody': video.videoBody,
+		'videoUri': video.videoUrl
+		}
+		videoList.append(videoDict)
+
+	jsonStr = json.dumps(videoList)
+
+
+	resp = jsonify(videoList)
 
 	return resp
