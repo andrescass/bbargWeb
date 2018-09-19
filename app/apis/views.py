@@ -71,7 +71,7 @@ def getNews():
 	return resp
 
 @apis.route('/getVideos', methods=['GET'])
-def getNews():
+def getVideos():
 	videos = VideoModel.query.all()
 
 	videoList = []
