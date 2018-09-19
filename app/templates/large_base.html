@@ -30,13 +30,13 @@
                         <li><a href="{{ url_for('admin.list_roles') }}">Roles</a></li>
                         <li><a href="{{ url_for('admin.list_employees') }}">Employees</a></li>
                         <li><a href="{{ url_for('admin.list_nius') }}">News</a></li>
-                        <li><a href="{{ url_for('admin.list_videos') }}">News</a></li>
+                        <li><a href="{{ url_for('admin.list_videos') }}">Videos</a></li>
                       {% else %}
                         {% if current_user.is_lore %}
                           <li><a href="{{ url_for('admin.list_lores') }}">Lore</a></li>
                           <li><a href="{{ url_for('home.hunter_dashboard') }}">Dashboard</a></li>
                           <li><a href="{{ url_for('admin.list_nius') }}">News</a></li>
-                          <li><a href="{{ url_for('admin.list_videos') }}">News</a></li>
+                          <li><a href="{{ url_for('admin.list_videos') }}">Videos</a></li>
                         {% else %}
                           <li><a href="{{ url_for('home.dashboard') }}">Dashboard</a></li>
                         {% endif %}
