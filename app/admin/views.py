@@ -337,7 +337,7 @@ def add_events():
     form = EventsForm()
     if form.validate_on_submit():
         events = EventsForm(title=form.title.data,
-                                eventBody=form.eventBody.data, eventDay=form.eventDay.data, eventHour=form.eventHour.data)
+                                eventBody=form.eventBody.data, eventDay=dict(form.eventDay.choices).get(form.eventDay.data), eventHour=dict(form.eventHour.choices).get(form.eventHour.data))
         try:
             # add event to the database
             db.session.add(events)
@@ -370,8 +370,8 @@ def edit_events(id):
     if form.validate_on_submit():
         event.title = form.title.data
         event.eventBody = form.eventBody.data
-        eventDay=form.eventDay.data
-        eventHour=form.eventHour.data
+        eventDay=dict(form.eventDay.choices).get(form.eventDay.data)
+        eventHour=dict(form.eventHour.choices).get(form.eventHour.data)
         db.session.commit()
         flash('You have successfully edited the event.')
 
