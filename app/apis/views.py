@@ -103,7 +103,7 @@ def getEvents():
 		'ID': events.id,
 		'title': events.title,
 		'eventBody': events.eventBody,
-		'eventDay': events.eventDay
+		'eventDay': events.eventDay,
 		'eventHour': events.eventHour
 		}
 		eventsList.append(eventsDict)
