@@ -28,9 +28,9 @@
               {% for events in eventses %}
                 <tr>
                   <td> {{ events.title }} </td>
-                  <td> {{ events.eventsBody }} </td>
-                  <td> {{ events.eventsDay }} </td>
-                  <td> {{ events.eventsHour }} </td>
+                  <td> {{ events.eventBody }} </td>
+                  <td> {{ events.eventDay }} </td>
+                  <td> {{ events.eventHour }} </td>
                   <td>
                     <a href="{{ url_for('admin.edit_events', id=events.id) }}">
                       <i class="fa fa-pencil"></i> Edit 

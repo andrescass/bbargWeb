@@ -382,8 +382,8 @@ def edit_events(id):
 
     form.title.data = events.title
     form.eventBody.data = events.eventBody
-    form.eventDay.data = eventDay
-    form.eventHour.data = eventHour
+    form.eventDay.data = events.eventDay
+    form.eventHour.data = events.eventHour
     return render_template('admin/events/events.html', action="Edit",
                            add_events=add_events, form=form,
                            events=events, title="Edit lore entry")
