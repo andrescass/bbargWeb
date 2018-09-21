@@ -79,7 +79,7 @@ def getVideos():
 	for video in videos:
 		videoDict = {
 		'ID': video.id,
-		'title': video.name,
+		'title': video.title,
 		'videoBody': video.videoBody,
 		'videoUri': video.videoUrl
 		}
@@ -89,5 +89,28 @@ def getVideos():
 
 
 	resp = jsonify(videoList)
+
+	return resp
+
+@apis.route('/getEvents', methods=['GET'])
+def getEvents():
+	eventses = EventsModel.query.all()
+
+	eventsList = []
+
+	for events in eventses:
+		eventsDict = {
+		'ID': events.id,
+		'title': events.title,
+		'eventBody': events.eventBody,
+		'eventDay': events.eventDay
+		'eventHour': events.eventHour
+		}
+		eventsList.append(eventsDict)
+
+	jsonStr = json.dumps(eventsList)
+
+
+	resp = jsonify(eventsList)
 
 	return resp

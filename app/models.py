@@ -150,7 +150,7 @@ class NewsModel(db.Model):
 
 class VideoModel(db.Model):
     """
-    Create a Lore table
+    Create a Video table
     """
 
     __tablename__ = 'videomodel'
@@ -162,3 +162,20 @@ class VideoModel(db.Model):
 
     def __repr__(self):
         return '<VideoModel: {}>'.format(self.title)
+
+class EventsModel(db.Model):
+    """
+    Create a Event table
+    """
+
+    __tablename__ = 'eventsmodel'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(60))
+    eventBody = db.Column(db.Text)
+    eventDay = db.Column(db.String(16))
+    eventHour = db.Column(db.String(8))
+
+    def __repr__(self):
+        return '<EventsModel: {}>'.format(self.title)
+

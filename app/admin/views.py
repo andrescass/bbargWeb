@@ -5,9 +5,9 @@ from flask_login import current_user, login_required
 
 from . import admin
 from .forms import DepartmentForm, EmployeeAssignForm, RoleForm, LoreForm, HunterForm, NiusForm
-from .forms import VideoForm
+from .forms import VideoForm, EventsForm
 from .. import db
-from ..models import Department, Employee, Role, Lore, Hunter, NewsModel, VideoModel
+from ..models import Department, Employee, Role, Lore, Hunter, NewsModel, VideoModel, EventsModel
 
 def check_admin():
     """
@@ -308,6 +308,101 @@ def delete_video(id):
     return redirect(url_for('admin.list_videos'))
 
     return render_template(title="Delete video")
+
+# Evente Views
+
+@admin.route('/events', methods=['GET', 'POST'])
+@login_required
+def list_events():
+    """
+    List all events
+    """
+    check_lore()
+
+    eventses = EventsModel.query.all()
+
+    return render_template('admin/events/eventses.html',
+                           eventses=eventses, title="Lore")
+
+@admin.route('/events/add', methods=['GET', 'POST'])
+@login_required
+def add_events():
+    """
+    Add an event
+    """
+    check_lore()
+
+    add_event = True
+
+    form = EventsForm()
+    if form.validate_on_submit():
+        events = EventsForm(title=form.title.data,
+                                eventBody=form.eventBody.data, eventDay=form.eventDay.data, eventHour=form.eventHour.data)
+        try:
+            # add event to the database
+            db.session.add(events)
+            db.session.commit()
+            flash('You have successfully added a new event.')
+        except:
+            # in case lore name already exists
+            flash('Error: event title already exists.')
+
+        # redirect to departments page
+        return redirect(url_for('admin.list_events'))
+
+    # load department template
+    return render_template('admin/events/events.html', action="Add",
+                           add_event=add_event, form=form,
+                           title="Add Event")
+
+@admin.route('/events/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_events(id):
+    """
+    Edit a event entry
+    """
+    check_lore()
+
+    add_event = False
+
+    events = EventsModel.query.get_or_404(id)
+    form = EventsForm(obj=events)
+    if form.validate_on_submit():
+        event.title = form.title.data
+        event.eventBody = form.eventBody.data
+        eventDay=form.eventDay.data
+        eventHour=form.eventHour.data
+        db.session.commit()
+        flash('You have successfully edited the event.')
+
+        # redirect to the departments page
+        return redirect(url_for('admin.list_events'))
+
+    form.title.data = events.title
+    form.eventBody.data = events.eventBody
+    form.eventDay.data = eventDay
+    form.eventHour.data = eventHour
+    return render_template('admin/events/events.html', action="Edit",
+                           add_events=add_events, form=form,
+                           events=events, title="Edit lore entry")
+
+@admin.route('/events/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_events(id):
+    """
+    Delete an event from the database
+    """
+    check_lore()
+
+    events = EventsModel.query.get_or_404(id)
+    db.session.delete(events)
+    db.session.commit()
+    flash('You have successfully deleted the event.')
+
+    # redirect to the departments page
+    return redirect(url_for('admin.list_events'))
+
+    return render_template(title="Delete event")
 
 # Chart Views
 

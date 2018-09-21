@@ -32,11 +32,13 @@
                         <li><a href="{{ url_for('admin.list_employees') }}">Employees</a></li>
                         <li><a href="{{ url_for('admin.list_nius') }}">News</a></li>
                         <li><a href="{{ url_for('admin.list_videos') }}">Videos</a></li>
+                        <li><a href="{{ url_for('admin.list_events') }}">Events</a></li>
                       {% else %}
                         {% if current_user.is_lore %}
                           <li><a href="{{ url_for('admin.list_lores') }}">Lore</a></li>
                           <li><a href="{{ url_for('admin.list_nius') }}">News</a></li>
                           <li><a href="{{ url_for('admin.list_videos') }}">Videos</a></li>
+                          <li><a href="{{ url_for('admin.list_events') }}">Events</a></li>
                         {% endif %}
                         {% if current_user.is_chart %}
                           <li><a href="{{ url_for('admin.list_chart') }}">Lore</a></li>
