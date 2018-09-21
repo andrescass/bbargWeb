@@ -2,6 +2,7 @@
 
 from flask import abort, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
+import traceback  
 
 from . import admin
 from .forms import DepartmentForm, EmployeeAssignForm, RoleForm, LoreForm, HunterForm, NiusForm
@@ -345,7 +346,8 @@ def add_events():
             flash('You have successfully added a new event.')
         except:
             # in case lore name already exists
-            flash('Error: event title already exists.')
+            # flash('Error: event title already exists.')
+            flash(traceback.format_exc())
 
         # redirect to departments page
         return redirect(url_for('admin.list_events'))
