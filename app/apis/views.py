@@ -2,7 +2,7 @@ from flask import Flask,jsonify,json
 
 from . import apis
 from .. import db
-from ..models import Lore, Hunter, NewsModel, VideoModel
+from ..models import Lore, Hunter, NewsModel, VideoModel, EventsModel
 
 @apis.route('/getLores', methods=['GET'])
 def getLoreList():
