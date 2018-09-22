@@ -57,7 +57,7 @@ def getNews():
 	for nius in newses:
 		niusDict = {
 		'ID': nius.id,
-		'title': nius.title,
+		'name': nius.title,
 		'newsBody': nius.newsBody,
 		'imageUri': nius.imageUrl
 		}
