@@ -134,7 +134,7 @@ def list_nius():
     """
     check_lore()
 
-    niuss = NewsModel.query.order_by(id.desc()).all()
+    niuss = NewsModel.query.order_by(NewsModel.id.desc()).all()
 
     return render_template('admin/newses/niuses.html',
                            niuses=niuss, title="News")
