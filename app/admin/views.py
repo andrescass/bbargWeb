@@ -176,7 +176,7 @@ def edit_nius(id):
     """
     Edit a news entry
     """
-    check_news()
+    check_lore()
 
     add_news = False
 
@@ -205,7 +205,7 @@ def delete_nius(id):
     """
     Delete a news entry from the database
     """
-    check_news()
+    check_lore()
 
     nius = Lore.query.get_or_404(id)
     db.session.delete(nius)
